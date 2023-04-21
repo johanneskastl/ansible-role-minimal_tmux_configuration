@@ -1,4 +1,5 @@
 ---
 # minimal_tmux_configuration/defaults/main.yml
 
+tmux_mode_keys: 'vi'
 tmux_history_limit: 999999
