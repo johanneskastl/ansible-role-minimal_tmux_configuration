@@ -1,0 +1,21 @@
+####################################################################################
+# https://thevaluable.dev/tmux-config-mouseless/
+unbind r
+bind r source-file ~/.tmux.conf \; display "Reloaded ~/.tmux.conf"
+# v and h are not bound by default, but we never know in the next versions...
+unbind v
+unbind h
+unbind % # Split vertically
+unbind '"' # Split horizontally
+bind v split-window -h -c "#{pane_current_path}"
+bind h split-window -v -c "#{pane_current_path}"
+bind -n M-j previous-window
+bind -n M-k next-window
+
+####################################################################################
+# https://www.runrails.com/tmux/scrolling-in-tmux/
+set-window-option -g mode-keys vi
+
+####################################################################################
+# https://stackoverflow.com/questions/18760281/how-to-increase-scrollback-buffer-size-in-tmux
+set-option -g history-limit 999999
