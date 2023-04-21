@@ -1,0 +1,32 @@
+---
+# minimal_tmux_configuration/tasks/main.yml
+
+- name: 'Set primary group to users on SUSE/openSUSE'
+  ansible.builtin.set_fact:
+    primary_group_name: 'users'
+  when: '
+    ansible_distribution == "SLES" or
+    ansible_distribution == "openSUSE Leap" or
+    ansible_distribution == "openSUSE MicroOS" or
+    ansible_distribution == "openSUSE Tumbleweed"
+    '
+
+- name: 'Create .tmux.conf for root'
+  ansible.builtin.template:
+    src: 'tmux.conf.j2'
+    dest: '/root/.tmux.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: 'Create .tmux.conf for other users (if any are supplied)'
+  ansible.builtin.template:
+    src: 'tmux.conf.j2'
+    dest: "/home/{{ item }}/.tmux.conf"
+    owner: "{{ item }}"
+    group: "{{ primary_group_name | default(item) }}"
+    mode: '0644'
+  with_items:
+    - "{{ additional_users }}"
+  when:
+    - 'additional_users is defined'
