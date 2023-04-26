@@ -13,7 +13,12 @@ None.
 Role Variables
 --------------
 
-None.
+- `additional_users`: (optional) Other users except the root user, that should
+  get a `~/.tmux.conf`. A good idea would be to create one for the
+  `ansible_user`...
+- `tmuxconf_for_root`: (optional) Boolean that decides if this role should
+  create a `.tmux.conf` for the root user (default is `true`)
+
 
 Dependencies
 ------------
