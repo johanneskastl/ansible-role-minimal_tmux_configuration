@@ -11,6 +11,11 @@
     ansible_distribution == "openSUSE Tumbleweed"
     '
 
+- name: 'Install tmux'
+  ansible.builtin.package:
+    name: 'tmux'
+    state: 'present'
+
 - name: 'Create .tmux.conf for root'
   ansible.builtin.template:
     src: 'tmux.conf.j2'
