@@ -25,6 +25,15 @@
   when:
     - not rpm_ostree_detection.stat.exists
 
+- name: 'Install package tmux on Fedora CoreOS'
+  community.general.rpm_ostree_pkg:
+    name:
+      - 'tmux'
+  notify:
+    - 'Reboot on CoreOS'
+  when:
+    - rpm_ostree_detection.stat.exists
+
 - name: 'Create .tmux.conf for root'
   ansible.builtin.template:
     src: 'tmux.conf.j2'
