@@ -22,6 +22,8 @@
   ansible.builtin.package:
     name: 'tmux'
     state: 'present'
+  when:
+    - not rpm_ostree_detection.stat.exists
 
 - name: 'Create .tmux.conf for root'
   ansible.builtin.template:
