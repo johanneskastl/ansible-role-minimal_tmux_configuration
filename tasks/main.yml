@@ -11,19 +11,12 @@
     ansible_distribution == "openSUSE Tumbleweed"
     '
 
-- name: 'Check if we are running on a rpm-ostree system'
-  ansible.builtin.stat:
-    path: '/usr/bin/rpm-ostree'
-  changed_when: false
-  failed_when: false
-  register: rpm_ostree_detection
-
 - name: 'Install tmux'
   ansible.builtin.package:
     name: 'tmux'
     state: 'present'
   when:
-    - not rpm_ostree_detection.stat.exists
+    - not ansible_pkg_mgr == "atomic_container"
 
 - name: 'Install package tmux on Fedora CoreOS'
   community.general.rpm_ostree_pkg:
@@ -32,7 +25,7 @@
   notify:
     - 'Reboot on CoreOS'
   when:
-    - rpm_ostree_detection.stat.exists
+    - ansible_pkg_mgr == "atomic_container"
 
 - name: 'Create .tmux.conf for root'
   ansible.builtin.template:
